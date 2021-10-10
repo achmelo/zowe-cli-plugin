@@ -1,0 +1,127 @@
+{
+  "name": "@zowe/sample-plugin-for-zowe-cli",
+  "version": "2.0.3",
+  "description": "A sample plugin for Zowe CLI :)",
+  "homepage": "https://github.com/zowe/zowe-cli-sample-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/zowe/zowe-cli-sample-plugin/issues"
+  },
+  "keywords": [
+    "zowe",
+    "cli",
+    "sample",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zowe/zowe-cli-sample-plugin.git"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://zowe.jfrog.io/zowe/api/npm/npm-local-release/"
+  },
+  "scripts": {
+    "build": "node scripts/updateLicense.js && tsc --pretty && npm run checkTestsCompile && madge -c lib",
+    "checkTestsCompile": "echo \"Checking that test source compiles...\" && tsc --project __tests__/test-tsconfig.json --noEmit ",
+    "prebuild": "npm run clean && npm run lint && echo Using TypeScript && tsc --version",
+    "clean": "rimraf lib",
+    "watch": "tsc --pretty --watch",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint \"src/**/*.ts\" \"**/__tests__/**/*.ts\"",
+    "lint:src": "eslint \"src/**/*.ts\" --ignore-pattern \"**/__tests__/**/*.ts\"",
+    "lint:tests": "eslint \"**/__tests__/**/*.ts\"",
+    "test": "npm run test:unit && npm run test:integration && npm run test:system",
+    "test:system": "env-cmd __tests__/__resources__/env/system.env jest .*/__system__/.* --coverage false",
+    "test:integration": "env-cmd __tests__/__resources__/env/integration.env jest .*/__integration__/.* --coverage false",
+    "test:unit": "env-cmd __tests__/__resources__/env/unit.env jest --coverage --testPathIgnorePatterns \".*/__system__|__integration__/.*\"",
+    "installPlugin": "npm install && npm run clean && npm run build && zowe plugins install ."
+  },
+  "imperative": {
+    "configurationModule": "lib/imperative.js"
+  },
+  "peerDependencies": {
+    "@zowe/cli": "^6.33.0",
+    "@zowe/imperative": "^4.15.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^8.10.66",
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
+    "@zowe/cli": "^6.33.1",
+    "@zowe/imperative": "^4.15.0",
+    "env-cmd": "^8.0.2",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-unused-imports": "^1.1.2",
+    "fs-extra": "^8.1.0",
+    "jest": "^27.0.6",
+    "jest-cli": "^27.0.6",
+    "jest-environment-node": "^27.0.6",
+    "jest-environment-node-debug": "^2.0.0",
+    "jest-html-reporter": "^3.3.0",
+    "jest-junit": "^6.3.0",
+    "jest-stare": "^2.2.0",
+    "madge": "^5.0.1",
+    "rimraf": "^2.7.1",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^7.0.1",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.7.4",
+    "uuid": "^3.2.1"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "__tests__/__snapshots__/"
+    ],
+    "testResultsProcessor": "jest-stare",
+    "transform": {
+      ".(ts)": "ts-jest"
+    },
+    "testRegex": "(test|spec)\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/__results__"
+    ],
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!**/__tests__/**",
+      "!**/index.ts",
+      "!**/main.ts"
+    ],
+    "collectCoverage": false,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "cobertura"
+    ],
+    "coverageDirectory": "<rootDir>/__tests__/__results__/unit/coverage"
+  },
+  "jest-stare": {
+    "resultDir": "__tests__/__results__/jest-stare",
+    "additionalResultsProcessors": [
+      "jest-junit",
+      "jest-html-reporter"
+    ],
+    "coverageLink": "../coverage/lcov-report/index.html"
+  },
+  "jest-junit": {
+    "output": "__tests__/__results__/junit.xml"
+  },
+  "jest-html-reporter": {
+    "pageTitle": "Zowe CLI Sample Plugin Test Results",
+    "outputPath": "__tests__/__results__/results.html",
+    "includeFailureMsg": true
+  },
+  "author": "Darkside",
+  "license": "EPL-2.0"
+}
