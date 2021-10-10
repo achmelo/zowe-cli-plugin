@@ -1,5 +1,5 @@
 {
-  "name": "@zowe/sample-plugin-for-zowe-cli",
+  "name": "@zowe/zowe-cli-buddy",
   "version": "2.0.3",
   "description": "A sample plugin for Zowe CLI :)",
   "homepage": "https://github.com/zowe/zowe-cli-sample-plugin#readme",
@@ -123,5 +123,9 @@
     "includeFailureMsg": true
   },
   "author": "Darkside",
-  "license": "EPL-2.0"
+  "license": "EPL-2.0",
+  "dependencies": {
+    "@types/diff": "^5.0.1",
+    "diff": "^5.0.0"
+  }
 }
